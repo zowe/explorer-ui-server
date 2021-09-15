@@ -13,6 +13,7 @@
 // load command line params
 const stdio = require('stdio');
 const { httpTypeToString } = require('./utils');
+const process=require('process');
 
 const params = stdio.getopt({
   'service': {key: 's',  args:1, description: 'service-for path', default:'', type: 'string'},
@@ -54,7 +55,14 @@ try {
   // configure https server and start listening
   const httpsServer =require('./server')(config,staticFileHandler);
   httpsServer.listen(config.port, '0.0.0.0', () => { process.stdout.write(`[${config.serviceFor}] is started and listening on ${config.port}...\n\n`);});
-
+  // trap SIGTERM
+  process.stdout.write(`[${serviceFor}] trap SIGTERM signal\n`);
+  process.on('SIGTERM', function () {
+    process.stdout.write(`[${serviceFor}] SIGTERM received, shutting down server ...\n`);
+    httpsServer.close();
+    process.exit(0);
+  });
+  
 } catch (err) {
   process.stderr.write(`[${config.serviceFor}] is failed to start, error:\n`);
   process.stderr.write(`[${config.serviceFor}] ${err}\n\n`);
