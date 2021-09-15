@@ -14,6 +14,13 @@
 const stdio = require('stdio');
 const { httpTypeToString } = require('./utils');
 
+// trap SIGTERM
+const process=require('process');
+process.on('SIGTERM', function () {
+  console.log('[explorer-ui-server] SIGTERM received! exiting ...');
+  process.exit(1);
+});
+
 const params = stdio.getopt({
   'service': {key: 's',  args:1, description: 'service-for path', default:'', type: 'string'},
   'path': {key: 'b', args:1,    description: 'base path uri', default:''},
