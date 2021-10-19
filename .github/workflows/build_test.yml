@@ -91,11 +91,17 @@ jobs:
           pax-ssh-username: ${{ secrets.SSH_MARIST_USERNAME }}
           pax-ssh-password: ${{ secrets.SSH_MARIST_PASSWORD }}
 
-      - name: '[Publish] Publish'
+      - name: '[Publish 1] Publish'
         uses: zowe-actions/shared-actions/publish@main
         if: success()
         with:
           artifacts: .pax/explorer-ui-server.pax
+          perform-release: ${{ github.event.inputs.PERFORM_RELEASE }}
+
+      - name: '[Publish 2] NPM Publish'
+        if: success()
+        uses: zowe-actions/nodejs-actions/publish@main
+        with: 
           perform-release: ${{ github.event.inputs.PERFORM_RELEASE }}
 
       - name: '[Release 1] Release (if necessary)'
