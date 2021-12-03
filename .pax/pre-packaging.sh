@@ -14,3 +14,13 @@ set -x
 # npm install on z/OS to get the keyring_js node modules
 cd ./content
 npm install --production
+
+# Fix package-lock.json encoding
+for file in package.json package-lock.json ; do
+  encoding=$(ls -T "${file}" | awk '{print $2}')
+  if [ "${encoding}" = "ISO8859-1" ]; then
+    iconv -f "${encoding}" -t IBM-1047 "${file}.1047"
+    mv "${file}.1047" "${file}"
+    chtag -r "${file}"
+  fi
+done
