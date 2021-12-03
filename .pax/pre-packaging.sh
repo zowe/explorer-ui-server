@@ -19,7 +19,7 @@ npm install --production
 for file in package.json package-lock.json ; do
   encoding=$(ls -T "${file}" | awk '{print $2}')
   if [ "${encoding}" = "ISO8859-1" ]; then
-    iconv -f "${encoding}" -t IBM-1047 "${file}.1047"
+    iconv -f "${encoding}" -t IBM-1047 "${file}" > "${file}.1047"
     mv "${file}.1047" "${file}"
     chtag -r "${file}"
   fi
