@@ -36,7 +36,7 @@
     "mocha-jenkins-reporter": "0.4.7",
     "mocha-multi-reporters": "1.5.1",
     "mochawesome": "7.0.1",
-    "node-fetch": "2.6.6",
+    "node-fetch": "2.6.7",
     "nyc": "15.1.0",
     "rimraf": "3.0.2"
   }
